@@ -1,11 +1,13 @@
 from argparse import ArgumentParser, SUPPRESS
 from tmpmail.api.one_sec_mail import OneSecMail, Mail
 from pathlib import Path
-
+from appdirs import user_config_dir, user_data_dir
 import json
 import string
 import random
 import webbrowser
+
+appname = "tmpmail"
 
 def random_username(length=10):
 	randomSource = string.ascii_letters + string.digits
@@ -19,18 +21,21 @@ def create_config(filename="config.json", username = None, domain="1secmail.org"
 		"username":	username if username else random_username(),
 		"domain":	domain
 	}
-	with open(filename, "w", encoding="utf-8") as file:
+	path = Path(user_config_dir(appname))
+	path.mkdir(parents=True, exist_ok=True)
+	with open(Path.joinpath(path, filename), "w", encoding="utf-8") as file:
 		json.dump(config, file)
 
 def load_config(filename="config.json"):
-	if not Path(filename).is_file():
+	path = Path.joinpath(Path(user_config_dir(appname)), filename)
+	if not path.is_file():
 		create_config()
 
-	with open(filename, "r", encoding="utf-8") as file:
+	with open(path, "r", encoding="utf-8") as file:
 		return json.load(file)
 
 def save_html(mail: Mail, pure_text = False)-> Path:
-	path = Path.joinpath(Path.cwd(), Path("email.html")).resolve()
+	path = Path.joinpath(Path(user_data_dir(appname)), Path("email.html")).resolve()
 	with open(path, "w", encoding="utf-8") as file:
 		file.write(mail.txt_body if pure_text else mail.body)
 	return path.as_posix()

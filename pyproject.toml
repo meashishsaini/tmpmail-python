@@ -1,0 +1,32 @@
+[tool.poetry]
+authors = ["Ashish Saini <sainiashish08@gmail.com>"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.7",
+  "Topic :: Utilities",
+]
+description = "Create and view temporary mailbox using 1secmail API."
+license = "MIT"
+name = "tmpmail"
+readme = "README.md"
+version = "0.0.1"
+homepage = "https://github.com/meashishsaini/tmpmail-python"
+repository = "https://github.com/meashishsaini/tmpmail-python"
+keywords = ["email", "temp"]
+
+[tool.poetry.dependencies]
+html2text = "^2020.1.16"
+python = "^3.6"
+requests = "^2.25.0"
+rich = "^9.2.0"
+appdirs = "^1.4.4"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+
+[tool.poetry.scripts]
+tmpmail = "tmpmail.main:parse"

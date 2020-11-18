@@ -1,4 +1,0 @@
-requests
-rich
-rich.markdown
-html2text
