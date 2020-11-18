@@ -35,28 +35,33 @@ def load_config(filename="config.json"):
 		return json.load(file)
 
 def save_html(mail: Mail, pure_text = False)-> Path:
+	path = Path(user_data_dir(appname))
+	path.mkdir(parents=True, exist_ok=True)
 	path = Path.joinpath(Path(user_data_dir(appname)), Path("email.html")).resolve()
 	with open(path, "w", encoding="utf-8") as file:
 		file.write(mail.txt_body if pure_text else mail.body)
-	return path.as_posix()
+	return path.as_uri()
 
 def show_mail(one_sec_mail: OneSecMail, mail: Mail, pure_text=False, in_browser=False, browser=None):
 	if mail:
 		if in_browser:
 			browser_instance = None
 			# unix style paths are required for webbrowser get: https://stackoverflow.com/a/24873636
-			browser = Path(browser).resolve().as_posix()
+			browser = Path(browser).resolve().as_posix() if browser else None
 			try:
 				# First try to get as standard browser supported by webbrowser
 				browser_instance = webbrowser.get(browser)
 			except webbrowser.Error:
-				try:
-					# If not try as generic browser
-					browser_instance = webbrowser.get(browser + " %s")
-				except webbrowser.Error as err:
-					print(err)
+				if browser:
+					try:
+						# If not try as generic browser
+						browser_instance = webbrowser.get(browser + " %s")
+					except webbrowser.Error as err:
+						print(err)
 			if browser_instance:
 				browser_instance.open_new_tab(save_html(mail, pure_text))
+			else:
+				print("No browser found.")
 		else:
 			one_sec_mail.show_mail(mail, pure_text)
 	else:
