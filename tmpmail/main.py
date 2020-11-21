@@ -74,6 +74,7 @@ def parse():
 	argparser.add_argument("-r", "--recent", help="view most recent email.", action="store_true")
 	argparser.add_argument("-t", "--text", help="view email as pure text.", action="store_true")
 	argparser.add_argument("-b", "--browser", help="open email in given browser.", type=str, nargs="?", default=SUPPRESS)
+	argparser.add_argument("-d", "--domain", help="set a custom domain supported by 1secmail.", type=str, default=SUPPRESS, choices=OneSecMail.valid_domains())
 	args = argparser.parse_args()
 
 	config = load_config()
@@ -81,6 +82,13 @@ def parse():
 	if "username" in args:
 		config["username"] = args.username if args.username else random_username()
 		create_config(username=config.get("username"), domain=config.get("domain"))
+	
+	if "domain" in args:
+		if OneSecMail.is_valid_domain(args.domain):
+			config["domain"] = args.domain
+			create_config(username=config.get("username"), domain=config.get("domain"))
+		else:
+			print("Illegal domain name provided.")
 
 	one_sec_mail = OneSecMail(**config)
 
