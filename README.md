@@ -11,11 +11,13 @@ Create and view temporary mailbox using 1secmail [API](https://www.1secmail.com/
 * _appdirs_
 
 ## Installation
-3. Install using `pip install git+https://github.com/meashishsaini/tmpmail-python`
+1. Install using `pip install git+https://github.com/meashishsaini/tmpmail-python`
 
 ## Usage
 ```
-tmpmail [-h] [-g [USERNAME]] [-r] [-t] [-b [BROWSER]] [id]
+tmpmail [-h] [-g [USERNAME]] [-r] [-t] [-b [BROWSER]]
+               [-d {1secmail.com,1secmail.org,1secmail.net,wwjmp.com,esiix.com}]
+               [id]
 
 positional arguments:
   id                    id of the email received
@@ -28,7 +30,9 @@ optional arguments:
   -t, --text            view email as pure text.
   -b [BROWSER], --browser [BROWSER]
                         open email in given browser.
+  -d {1secmail.com,1secmail.org,1secmail.net,wwjmp.com,esiix.com}, --domain {1secmail.com,1secmail.org,1secmail.net,wwjmp.com,esiix.com}
+                        set a custom domain supported by 1secmail.
 ```
 
 ## Credits
-The python version inspired by Siddharth Dushantha's [tmpmail](https://github.com/sdushantha/tmpmail) script.
+The python version is inspired by Siddharth Dushantha's [tmpmail](https://github.com/sdushantha/tmpmail) script.

@@ -49,10 +49,20 @@ class Mail:
 class OneSecMail(APIBase):
 	def __init__(self, username, domain="1secmail.org"):
 		super().__init__()
+		if not self.is_valid_domain(domain):
+			raise Exception("Illegal domain.")
 		self.domain = domain
 		self.username = username
 		self.url = f"https://www.1secmail.com/api/v1/?domain={self.domain}&login={self.username}"
 	
+	@classmethod
+	def is_valid_domain(cls, domain: str):
+		return domain in cls.valid_domains()
+
+	@classmethod
+	def valid_domains(cls):
+		return ["1secmail.com", "1secmail.org", "1secmail.net", "wwjmp.com", "esiix.com"]
+
 	def check_mailbox(self) -> list:
 		action = "getMessages"
 		check_url = f"{self.url}&action={action}"
